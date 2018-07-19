@@ -51,6 +51,6 @@ if __name__ == "__main__":
                         else:
                             thefile.write("{} {} {} {}\n".format(item[0], item[1], item[2], item[3]))
             else:
-                print("geojson corresponding to {} doesn't exists".format(raster))
+                print("geojson corresponding to {} doesn't exist.".format(raster))
     print("Old style bounding boxes created!")
 

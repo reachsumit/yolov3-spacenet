@@ -1,8 +1,9 @@
 import os
-from skimage import io
 import shutil
 import random
 import configparser
+from osgeo import gdal
+import subprocess
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -16,8 +17,31 @@ if not os.path.exists("output"):
 
 fname = []
 for raster in os.listdir('old_style_boxes_txt'):
-    im = io.imread(tif_path+os.path.splitext(raster)[0]+".tif")
-    io.imsave("output/data/"+os.path.splitext(raster)[0]+".jpg", im)
+    srcRaster = gdal.Open(tif_path+os.path.splitext(raster)[0]+".tif")
+    outputRaster = "output/data/"+os.path.splitext(raster)[0]+".jpg"
+
+    cmd = ['gdal_translate', '-ot', 'Byte', '-of', 'JPEG', '-co', 'PHOTOMETRIC=rgb']
+    scaleList = []
+    for bandId in range(srcRaster.RasterCount):
+        bandId = bandId+1
+        band=srcRaster.GetRasterBand(bandId)
+        min = band.GetMinimum()
+        max = band.GetMaximum()
+
+        # if not exist minimum and maximum values
+        if min is None or max is None:
+            (min, max) = band.ComputeRasterMinMax(1)
+        cmd.append('-scale_{}'.format(bandId))
+        cmd.append('{}'.format(0))
+        cmd.append('{}'.format(max))
+        cmd.append('{}'.format(0))
+        cmd.append('{}'.format(255))
+
+    cmd.append(tif_path+os.path.splitext(raster)[0]+".tif")
+    cmd.append(outputRaster)
+    print(cmd)
+    subprocess.call(cmd)
+    os.remove("output/data/"+os.path.splitext(raster)[0]+".jpg.aux.xml")
     fname.append("data/"+os.path.splitext(raster)[0]+".jpg")
 
 with open('output/data/train.txt', 'w') as thefile:
