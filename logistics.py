@@ -15,13 +15,10 @@ if not os.path.exists("output"):
         os.mkdir("output/data")
 
 fname = []
-for raster in os.listdir(tif_path):
-    if raster.endswith(".tif"):
-        print("Checkpoint 1")
-        if raster.endswith(".tif"):
-            im = io.imread(tif_path+raster)
-            io.imsave("output/data/"+os.path.splitext(raster)[0]+".jpg", im)
-            fname.append("data/"+os.path.splitext(raster)[0]+".jpg")
+for raster in os.listdir('old_style_boxes_txt'):
+    im = io.imread(tif_path+os.path.splitext(raster)[0]+".tif")
+    io.imsave("output/data/"+os.path.splitext(raster)[0]+".jpg", im)
+    fname.append("data/"+os.path.splitext(raster)[0]+".jpg")
 
 with open('output/data/train.txt', 'w') as thefile:
     for item in fname:

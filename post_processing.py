@@ -11,6 +11,8 @@ os.remove("data_list.txt")
 shutil.rmtree("yolo_style_boxes_txt")
 shutil.rmtree("old_style_boxes_txt")
 
+os.mkdir('output/backup')
+
 shutil.make_archive("output", 'zip', 'output')
 print("Post processing done! Upload output.zip to RCC.")
 print("You can also delete the output directory now.")
