@@ -1,9 +1,13 @@
 # coding: utf-8
 import os
+import configparser
 import geojson_to_pixel_arr
 
-tif_path = "/media/sumit/DATA/uChicago/Capstone/yolov3/Vegas_Sample/RGB-PanSharpen/"
-geojson_path = "/media/sumit/DATA/uChicago/Capstone/yolov3/Vegas_Sample/geojson/buildings/"
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+tif_path = config['FILE_PATHS']['TIF_PATH']
+geojson_path = config['FILE_PATHS']['GEOJSON_PATH']
 
 if __name__ == "__main__":
     for raster in os.listdir(tif_path):

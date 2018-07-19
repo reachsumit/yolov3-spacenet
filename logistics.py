@@ -2,9 +2,12 @@ import os
 from skimage import io
 import shutil
 import random
+import configparser
 
-tif_path = "/media/sumit/DATA/uChicago/Capstone/yolov3/Vegas_Sample/RGB-PanSharpen/"
-TEST_SIZE = 0.25
+config = configparser.ConfigParser()
+config.read('config.ini')
+tif_path = config['FILE_PATHS']['TIF_PATH']
+TEST_SIZE = float(config['PARAMS']['TEST_SIZE'])
 
 if not os.path.exists("output"):
     os.mkdir("output")
