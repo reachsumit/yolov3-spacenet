@@ -5,15 +5,6 @@ from osgeo import gdal, osr
 import numpy as np
 import json
 import sys
-import configparser
-
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-####################
-# download spacenet utilities from:
-#  https://github.com/SpaceNetChallenge/utilities/tree/master/python/spaceNet 
-sys.path.extend([config['FILE_PATHS']['SPACENET_UTILS']])
 import geoTools as gT
 
 ###############################################################################    
